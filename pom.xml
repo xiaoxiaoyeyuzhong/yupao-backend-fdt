@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fdt</groupId>
-	<artifactId>user_center_fdt</artifactId>
+	<artifactId>yupao-backend-fdt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>user_center_fdt</name>
-	<description>user_center_fdt</description>
+	<name>yupao-backend-fdt</name>
+	<description>yupao-backend-fdt</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

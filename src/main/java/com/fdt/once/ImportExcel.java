@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class ImportExcel {
     public static void main(String[] args) {
-        String fileName="D:\\files\\idea_workplace\\user_center_fdt\\src\\main\\resources\\PlanetUserInfo.xlsx";
+        String fileName="D:\\files\\idea_workplace\\yupao-backend-fdt\\src\\main\\resources\\PlanetUserInfo.xlsx";
 //        complexHeaderRead(fileName);
         synchronousRead(fileName);
     }

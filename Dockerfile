@@ -25,4 +25,4 @@ COPY src ./src
 RUN mvn package -DskipTests
 
 # 启动服务
-CMD ["java", "-jar", "/app/target/user_center_fdt-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]
+CMD ["java", "-jar", "/app/target/yupao-backend-fdt-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]

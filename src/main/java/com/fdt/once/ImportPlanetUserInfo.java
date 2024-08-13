@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class ImportPlanetUserInfo {
     public static void main(String[] args) {
-        String fileName="D:\\files\\idea_workplace\\user_center_fdt\\src\\main\\resources\\PlanetUserInfo.xlsx";
+        String fileName="D:\\files\\idea_workplace\\yupao-backend-fdt\\src\\main\\resources\\PlanetUserInfo.xlsx";
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet 同步读取会自动finish
         List<PlanetUserInfo> userInfoList =
                 EasyExcel.read(fileName).head(PlanetUserInfo.class).sheet().doReadSync();
