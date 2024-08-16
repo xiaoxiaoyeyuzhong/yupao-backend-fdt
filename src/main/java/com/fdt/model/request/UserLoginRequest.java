@@ -1,4 +1,4 @@
-package com.fdt.model.domain.request;
+package com.fdt.model.request;
 
 import lombok.Data;
 

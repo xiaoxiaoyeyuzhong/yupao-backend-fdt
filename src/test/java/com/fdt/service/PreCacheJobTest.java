@@ -1,24 +1,24 @@
-package com.fdt.job;
+package com.fdt.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fdt.model.domain.User;
-import com.fdt.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.redisson.api.RList;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-
-//定时任务，缓存推荐用户 todo 缓存重点用户的推荐用户
-@Component
 @Slf4j
-public class PreCacheJob {
+@SpringBootTest
+public class PreCacheJobTest
+{
 
     @Resource
     private UserService userService;
@@ -29,12 +29,29 @@ public class PreCacheJob {
     //重点用户
     private List<Long> mainUserList = Arrays.asList(1L);
 
-    //每天执行一次，预热推荐用户
-    @Scheduled(cron = "0 49 15 * * *")
-    public void doCacheRecommendUser() {
+    @Test
+    public void test(){
+        RList<String> rList = redissonClient.getList("test-lis");
+        rList.add(0,"12432235235432");
+        rList.add(1,"yupi");
+//        rList.add("dog");
+//        System.out.println(rList.get(0));
+//        System.out.println(rList.get(1));
+
+        System.out.println(rList.get(0));
+        System.out.println(rList.get(1));
+        System.out.println(rList.size());
+//        rList.remove(0);
+        rList.remove(0);
+        rList.remove(1);
+
+
+    }
+    @Test
+    public void testPreCache(){
         RLock lock = redissonClient.getLock("yupao:precachejob:docache:lock");
         try {
-            if(lock.tryLock(0,-1,TimeUnit.MILLISECONDS)){
+            if(lock.tryLock(0,-1, TimeUnit.MILLISECONDS)){
                 log.info("开始预热推荐用户");
                 for (Long userId : mainUserList) {
                     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -54,4 +71,6 @@ public class PreCacheJob {
         }
 
     }
+
 }
+

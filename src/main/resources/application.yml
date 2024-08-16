@@ -6,7 +6,7 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/universe?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/yupao?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    session失效时间
   session:
@@ -14,7 +14,7 @@ spring:
     store-type: redis
   redis:
     port: 6379
-    host: 127.0.0.1
+    host: localhost
     password: qq3216841
     database: 0
 server:
