@@ -29,6 +29,11 @@ public class TeamQuery extends PageRequest {
     private String description;
 
     /**
+     * 搜索关键词
+     */
+    private String searchText;
+
+    /**
      * 最大人数
      */
     private Integer maxNum;
@@ -43,6 +48,16 @@ public class TeamQuery extends PageRequest {
      * 0-公开，1-私有 2-加密
      */
     private Integer status;
+
+    //判断队伍查询封装类除了继承分页类的属性，其他属性是否为空
+    public boolean isEmptyExceptPage(){
+        return id == null
+                && name == null
+                && description == null
+                && searchText == null
+                && maxNum == null && userId == null
+                && status == null;
+    }
 
 
 }

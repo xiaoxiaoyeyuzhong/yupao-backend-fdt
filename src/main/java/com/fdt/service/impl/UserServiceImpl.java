@@ -30,8 +30,8 @@ import static com.fdt.contant.UserContant.USER_LOGIN_STATE;
 
 /**
  * @author 冯德田
- * @description 针对表【user(用户)】的数据库操作Service实现
- * @createDate 2024-05-12 23:04:46
+ * description 针对表【user(用户)】的数据库操作Service实现
+ * createDate 2024-05-12 23:04:46
  */
 @Service
 @Slf4j
@@ -60,7 +60,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      * @param userPassword  用户密码
      * @param checkPassword 重复密码
      * @param planetCode    星球编号
-     * @return
+     * @return long 用户id
      */
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword, String planetCode) {
@@ -132,8 +132,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      *
      * @param userAccount  用户账号
      * @param userPassword 用户密码
-     * @param request
-     * @return
+     * @param request 请求
+     * @return User 用户
      */
     @Override
     public User userLogin(String userAccount, String userPassword, HttpServletRequest request) {
@@ -183,35 +183,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     /**
      * 获取脱敏用户
      *
-     * @param orginUser
-     * @return
+     * @param originUser 原用户信息
+     * @return 脱敏用户信息
      */
     @Override
-    public User getSafetyUser(User orginUser) {
-        if (orginUser == null) {
+    public User getSafetyUser(User originUser) {
+        if (originUser == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户信息为空");
         }
         User safetyUser = new User();
-        safetyUser.setId(orginUser.getId());
-        safetyUser.setUsername(orginUser.getUsername());
-        safetyUser.setUserAccount(orginUser.getUserAccount());
-        safetyUser.setAvatarUrl(orginUser.getAvatarUrl());
-        safetyUser.setGender(orginUser.getGender());
-        safetyUser.setPhone(orginUser.getPhone());
-        safetyUser.setEmail(orginUser.getEmail());
-        safetyUser.setTags(orginUser.getTags());
-        safetyUser.setUserRole(orginUser.getUserRole());
-        safetyUser.setStatus(orginUser.getStatus());
-        safetyUser.setCreateTime(orginUser.getCreateTime());
-        safetyUser.setPlanetCode(orginUser.getPlanetCode());
+        safetyUser.setId(originUser.getId());
+        safetyUser.setUsername(originUser.getUsername());
+        safetyUser.setUserAccount(originUser.getUserAccount());
+        safetyUser.setAvatarUrl(originUser.getAvatarUrl());
+        safetyUser.setGender(originUser.getGender());
+        safetyUser.setPhone(originUser.getPhone());
+        safetyUser.setEmail(originUser.getEmail());
+        safetyUser.setTags(originUser.getTags());
+        safetyUser.setUserRole(originUser.getUserRole());
+        safetyUser.setStatus(originUser.getStatus());
+        safetyUser.setCreateTime(originUser.getCreateTime());
+        safetyUser.setPlanetCode(originUser.getPlanetCode());
         return safetyUser;
     }
 
     /**
      * 根据标签获取用户
      * 在内存中进行过滤
-     * @param tagNameList
-     * @return List<User>
+     * @param tagNameList 标签列表
+     * @return List<User> 用户列表
      */
     @Override
     public List<User> searchUsersByTags(List<String> tagNameList) {
@@ -354,11 +354,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 判断用户是否为管理员
         Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User user = (User) userObj;
-        boolean result= user != null && user.getUserRole() == ADMIN_ROLE;
-        if (!result){
-            throw new BusinessException(ErrorCode.NO_AUTH,"用户不是管理员");
-        }
-        return result;
+        return user != null && user.getUserRole() == ADMIN_ROLE;
     }
 
     /**

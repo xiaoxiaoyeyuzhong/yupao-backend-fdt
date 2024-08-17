@@ -10,6 +10,7 @@ import com.fdt.model.domain.Team;
 import com.fdt.model.domain.User;
 import com.fdt.model.dto.TeamQuery;
 import com.fdt.model.request.TeamAddRequest;
+import com.fdt.model.vo.TeamUserVO;
 import com.fdt.service.TeamService;
 import com.fdt.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -85,15 +86,12 @@ public class TeamController {
     }
 
     @GetMapping("/list")
-    public BaseResponse<List<Team>> listTeams(TeamQuery teamQuery){
+    public BaseResponse<List<TeamUserVO>> listTeams(TeamQuery teamQuery,HttpServletRequest request){
         if (teamQuery == null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-
-        Team team = new Team();
-        BeanUtils.copyProperties(team,teamQuery);
-        QueryWrapper<Team> queryWrapper = new QueryWrapper<>();
-        List<Team> teamList = teamService.list(queryWrapper);
+        boolean isAdmin = userService.isAdmin(request);
+        List<TeamUserVO> teamList = teamService.listTeam(teamQuery,isAdmin);
         return ResultUtils.success(teamList);
     }
 
