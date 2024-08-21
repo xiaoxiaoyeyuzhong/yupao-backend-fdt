@@ -366,9 +366,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public boolean isAdmin(User loginUser){
         // 判断用户是否为管理员
         boolean result= loginUser != null && loginUser.getUserRole() == ADMIN_ROLE;
-        if (!result){
-            throw new BusinessException(ErrorCode.NO_AUTH,"用户不是管理员");
-        }
         return result;
     }
 

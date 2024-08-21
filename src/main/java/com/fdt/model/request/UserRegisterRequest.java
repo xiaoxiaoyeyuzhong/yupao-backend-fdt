@@ -1,7 +1,6 @@
 package com.fdt.model.request;
 
 import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -12,7 +11,7 @@ import java.io.Serializable;
 @Data
 public class UserRegisterRequest implements Serializable {
     // 防止序列化过程出现某些冲突
-    private static final long serialVersionUID = 3191241716373120793L;
+    private static final long serialVersionUID = -1826331993879228228L;
     // 用户账号
     private String userAccount;
     // 用户密码
