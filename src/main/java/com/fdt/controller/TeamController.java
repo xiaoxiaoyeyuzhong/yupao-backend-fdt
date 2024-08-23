@@ -115,7 +115,9 @@ public class TeamController {
         boolean isAdmin = userService.isAdmin(request);
         List<TeamUserVO> originTeamList = teamService.listTeam(teamQuery,isAdmin);
         // 返回用户已加入的队伍列表，对接前端加入和退出队伍逻辑
+        // 查询已加入队伍的人数
         List<TeamUserVO> teamList = teamService.flagUserJoinedTeams(originTeamList,request);
+
         return ResultUtils.success(teamList);
     }
 
@@ -136,7 +138,7 @@ public class TeamController {
     /**
      * 获取我创建的队伍
      * @param teamQuery 队伍
-     * @param request
+     * @param request 请求
      * @return TeamUserVO
      */
     @GetMapping("/list/my/create")
@@ -146,7 +148,8 @@ public class TeamController {
         }
         User loginUser = userService.getLoginUser(request);
         teamQuery.setUserId(loginUser.getId());
-        List<TeamUserVO> teamList = teamService.listTeam(teamQuery,true);
+        List<TeamUserVO> originTeamList = teamService.listTeam(teamQuery,true);
+        List<TeamUserVO> teamList = teamService.flagUserJoinedTeams(originTeamList,request);
         return ResultUtils.success(teamList);
     }
 
@@ -174,6 +177,7 @@ public class TeamController {
         //过滤后得到用户加入的队伍id列表
         teamQuery.setIdList(idList);
         List<TeamUserVO> teamList = teamService.listTeam(teamQuery,true);
+        teamList = teamService.flagUserJoinedTeams(teamList,request);
         return ResultUtils.success(teamList);
     }
     @PostMapping("/join")

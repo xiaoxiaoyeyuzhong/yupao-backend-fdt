@@ -60,4 +60,9 @@ public class TeamUserVO implements Serializable {
      * 当前用户是否加入队伍
      */
     private boolean hasJoin = false;
+
+    /**
+     * 已加入用户的数量
+     */
+    private Integer hasJoinNum;
 }

@@ -74,4 +74,6 @@ public interface TeamService extends IService<Team> {
      * @return List<TeamUserVO> 标记后的队伍列表
      */
     List<TeamUserVO> flagUserJoinedTeams(List<TeamUserVO> originTeamList, HttpServletRequest request);
+
+
 }
