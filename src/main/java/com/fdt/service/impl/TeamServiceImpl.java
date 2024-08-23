@@ -26,10 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author 冯德田
@@ -462,6 +460,41 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
         }
         //删除队伍
         return this.removeById(teamId);
+    }
+
+    /**
+     * 标记当前登录用户已经加入哪些队伍
+     * @param originTeamList 原始队伍列表
+     * @param request 请求
+     * @return List<TeamUserVO> 标记后的队伍列表
+     */
+    @Override
+    public List<TeamUserVO> flagUserJoinedTeams(List<TeamUserVO> originTeamList, HttpServletRequest request) {
+        //获取原始队伍列表的队伍id集合
+        List<Long> teamIdList = originTeamList.stream().map(TeamUserVO::getId).collect(Collectors.toList());
+        //使用try，catch，避免getLoginUser出现异常，让不想登录的用户无法访问
+        try {
+            //通过team_user表，根据登录用户的userId和teamId查询当前登录用户在关联表的信息
+            QueryWrapper<TeamUser> teamUserQueryWrapper = new QueryWrapper<>();
+            User loginUser = userService.getLoginUser(request);
+            teamUserQueryWrapper.eq("userId",loginUser.getId());
+            teamUserQueryWrapper.in("teamId",teamIdList);
+            //得到当前登录用户在关联表的信息
+            List<TeamUser> teamUserList = teamUserService.list(teamUserQueryWrapper);
+            //通过关联表消息得到登录用户加入的队伍的id
+            Set<Long> hasJoinTeamIdSet = teamUserList.stream().map(TeamUser::getTeamId).collect(Collectors.toSet());
+            //遍历传入的原队伍列表，通过用户加入队伍id的集合，标识用户加入了哪些队伍
+            originTeamList.forEach(team ->{
+                //判断当前队伍是否被用户加入
+                boolean hasJoin = hasJoinTeamIdSet.contains(team.getId());
+                team.setHasJoin(hasJoin);
+            });
+        }catch (Exception e){
+
+        }
+        //将处理完的原队伍列表返回出去
+        return originTeamList;
+
     }
 
 

@@ -180,6 +180,24 @@ public class UserController {
     }
 
     /**
+     * 获取与登录用户标签最相近用户列表
+     * @param num 获取个数
+     * @param request 请求
+     * @return List<User>
+     */
+    @GetMapping("/match")
+    public BaseResponse<List<User>> matchUsers(long num, HttpServletRequest request) {
+        if(num<=0 || num >=20){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        if (loginUser == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN);
+        }
+        return ResultUtils.success(userService.matchUsers(num,loginUser));
+    }
+
+    /**
      * 更新用户
      * @param user 用户信息
      * @return Integer

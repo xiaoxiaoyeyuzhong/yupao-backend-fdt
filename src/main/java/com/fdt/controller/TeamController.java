@@ -113,7 +113,9 @@ public class TeamController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         boolean isAdmin = userService.isAdmin(request);
-        List<TeamUserVO> teamList = teamService.listTeam(teamQuery,isAdmin);
+        List<TeamUserVO> originTeamList = teamService.listTeam(teamQuery,isAdmin);
+        // 返回用户已加入的队伍列表，对接前端加入和退出队伍逻辑
+        List<TeamUserVO> teamList = teamService.flagUserJoinedTeams(originTeamList,request);
         return ResultUtils.success(teamList);
     }
 

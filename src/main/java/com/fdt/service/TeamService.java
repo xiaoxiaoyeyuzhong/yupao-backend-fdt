@@ -66,4 +66,12 @@ public interface TeamService extends IService<Team> {
      * @return boolean 解散结果
      */
     boolean deleteTeam(long teamId, User loginUser);
+
+    /**
+     * 标记当前登录用户已经加入哪些队伍
+     * @param originTeamList 原始队伍列表
+     * @param request 请求
+     * @return List<TeamUserVO> 标记后的队伍列表
+     */
+    List<TeamUserVO> flagUserJoinedTeams(List<TeamUserVO> originTeamList, HttpServletRequest request);
 }

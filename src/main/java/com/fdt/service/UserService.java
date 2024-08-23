@@ -75,4 +75,12 @@ public interface UserService extends IService<User> {
     void setRedisCache(String key, Object value, long time, TimeUnit unit);
 
     Object getRedisCache(String key);
+
+    /**
+     * 获取最匹配用户的列表
+     * @param num 要获取的数量
+     * @param loginUser 登录用户信息
+     * @return List<User> 匹配用户列表
+     */
+    List<User> matchUsers(long num, User loginUser);
 }
